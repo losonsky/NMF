@@ -148,22 +148,22 @@ void factorize(double *v, int row, int col, int features, unsigned int count) {
   double h[features * col];
   double hn[features * col];
   double hd[features * col];
-  double hd_t[features * features];
+  double hdt[features * features];
   double w[row * features];
   double wn[row * features];
   double wd[row * features];
-  double wd_t[row * col];
+  double wdt[row * col];
   double wh[row * col];
 
   matrix_init_zero((double*)wh, row, col);
   matrix_init_rand(h, features, col);
   matrix_init_zero(hn, features, col);
   matrix_init_zero(hd, features, col);
-  matrix_init_zero(hd_t, features, features);
+  matrix_init_zero(hdt, features, features);
   matrix_init_rand(w, row, features);
   matrix_init_zero(wn, row, features);
   matrix_init_zero(wd, row, features);
-  matrix_init_zero(wd_t, row, col);
+  matrix_init_zero(wdt, row, col);
 
 
   for (int i = 0; i < count; i ++) {
@@ -176,16 +176,16 @@ void factorize(double *v, int row, int col, int features, unsigned int count) {
 
     matrix_tx_left(hn, w, v, features, row, col);
 
-    matrix_tx_left(hd_t, w, w, features, row, features);
-    matrix_xl(hd, hd_t, h, features, features, col);
+    matrix_tx_left(hdt, w, w, features, row, features);
+    matrix_xl(hd, hdt, h, features, features, col);
 
     matrix_x(h, h, hn, features, col);
     matrix_divide(h, h, hd, features, col);
 
     matrix_tx_right(wn, v, h, row, col, features);
 
-    matrix_xl(wd_t, w, h, row, features, col);
-    matrix_tx_right(wd, wd_t, h, row, col, features);
+    matrix_xl(wdt, w, h, row, features, col);
+    matrix_tx_right(wd, wdt, h, row, col, features);
 
     matrix_x(w, w, wn, row, features);
     matrix_divide(w, w, wd, row, features);
