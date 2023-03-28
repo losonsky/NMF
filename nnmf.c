@@ -30,7 +30,7 @@ int matrix_diff(const double *a, const double *b, const int n, const int m) {
   return diff;
 }
 
-void matrix_init(double *a, const int n, const int m) {
+void matrix_init_rand(double *a, const int n, const int m) {
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < m; j++) {
       *(a + (i * m + j)) = (double)(rand() % 1000);
@@ -156,11 +156,11 @@ void factorize(double *v, int row, int col, int features, unsigned int count) {
   double wh[row * col];
 
   matrix_init_zero((double*)wh, row, col);
-  matrix_init(h, features, col);
+  matrix_init_rand(h, features, col);
   matrix_init_zero(hn, features, col);
   matrix_init_zero(hd, features, col);
   matrix_init_zero(hd_t, features, features);
-  matrix_init(w, row, features);
+  matrix_init_rand(w, row, features);
   matrix_init_zero(wn, row, features);
   matrix_init_zero(wd, row, features);
   matrix_init_zero(wd_t, row, col);
